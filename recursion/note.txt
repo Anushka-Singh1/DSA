@@ -1,0 +1,164 @@
+------RECURSIVE TREE-------
+||||||||||||||||||||||||||||
+
+INPUT-OUTPUT METHOD
+
+        First initialize the output with null
+
+                    INPUT
+                     /\
+                    /  \
+                   /    \ 
+                  /      \ 
+         OP1  small IP     OP2  Small IP
+        
+In recursion number of choices=number of branches 
+EXAMPLE----LETS TAKE INPUT ABC
+                    
+                                                                ABC
+                                                                / \
+                                don't include a as input       /   \    include a as INPUT
+                                                              /     \   
+                                                    " " , "bc"       "a","bc"             ("OUTPUT","INPUT")
+                                                           /\            /\
+                                       not include b      /  \i  not'b' /  \in 'b'
+                                                         /    \        /    \
+                                                        /      \      /      \
+                                                 " ","c"  "b","c"||"a","c"  "ab","c"
+                                                   /\        /\       /\        /\
+                                                  /  \      /  \     /  \      /  \                c cases (notinclude, include)
+                                                 /    \    /    \   /    \    /    \
+                                                /      \  /      \ /      \  /      \
+                                           "",""   "",c  b,     bc a     ac  ab     abc         one part is null 
+
+so the result is "",c,b,bc,a,ac,ab,abc......
+
+BASE CONDITION: "SMALLEST VALID INPUT"
+
+Three methods to approach in recursion :-> IBH(induction, base condition, hypothesis), RECURSIVE TREE, CHOICE DESIGN 
+                                                          |
+                                                          |
+                                                          |
+                                   APPROACH: if function is working well for n, execute for (n-1),(smaller input)
+
+
+SUBSET :
+when input is null we get the output (from the recursive tree)
+ In the subset of ab a has index =0 and b has index=1  ... whatever the input is ..it is at the index=0
+
+*** PERMUTATION WITH SPACES***
+If there is a string ABC                            
+                                                        ABC
+                                                         |
+                                                         |
+                                                         |
+                                                         |
+                                                      "A" "BC"
+                                                        /  \
+                                                       /    \
+                                                      /      \
+                                                     /        \
+                                              "A_B","C"      "AB", "C"
+                                                /    \          /    \
+                                               /      \        /      \
+                                              /        \      /        \
+                                    "A_B_C"," "  "A_BC"," " "AB_C"," "  "ABC"," "           input is empty (got the output)
+
+
+ *** PERMUTATION WITH CASE CHANGE ***
+  Let a string be "ab"
+                                             
+                                          output" "    ab<-input
+                                                       / \
+                                                      /   \
+                                                     /     \
+                                                    /       \
+                                        op1-> a ,ip->"b"     op2-> A, ip-> "b"
+                                              /   \                 /    \
+                                             /     \               /      \
+                                            /       \             /        \
+                                          ab ," "   aB, " "   Ab, " "     AB, " "                input is empty (got the output)
+
+
+**LETTER CASE-CHANGE PERMUTATION***
+
+In problem statement upper ,lower case letters and digits are included:
+Let a string be a1B2                                    
+                                                     ip-"a1B2"  op-" "
+                                                        /  \
+                                                       /    \
+                                                      /      \
+                                                     /        \
+                                      op1->"a", ip"1B2"     op-"A", ip"1B2"
+                                              |                    |
+                                              |                    |
+                                              |                    |
+                                              |                    |
+                                              |                    |
+                                            "a1" ,"B2"         "A1", "b2"
+                                              /   \               /   \
+                                             /     \             /     \
+                                            /       \           /       \
+                                        "a1b","2"  "a1B","2"  "A1b","2"  "A1B","2"
+                                             |          |         |          |
+                                             |          |         |          |
+                                          "a1b2"," "  "a1B2" ,""  "A1b2",""  "A1B2",""    input is empty(got the output)
+
+***BALANCED PARANTHESIS***
+  input will be a number and output  will be a string (datatypes of input and output will be different)
+  
+  EXAMPLE: for n=3
+  for n=3, 3 open brackets and 3 closed brackets;
+                                                  op="("  , ip= {2(} , {3)}
+                                                          /           \
+                                                (        /             \       )
+                                                        /               \
+                                               "((" o=1, c=3       "()" o=2,c=2
+                                                  /        \              |              (only one choice is their to use opening bracket because 
+                                                 /          \             |
+                                     "(((" o=0,c=3   "(()" o=1,c=2        "()(" o=1,c=2
+                                            |             /    \                     /         \
+                                            |            /      \                   /           \
+                              "((()))" o=0,c=0  "(()(",o=0,c=2  "(())"o=1,c=1  "()(("o=0,c=2   "()()" , o=1,c=1  
+                                                        |              |             |                  |
+                                                        |              |             |                  |
+                                          "(()())" o=0,c=0     "(())()"o=0,c=0  "()(())"o=0,c=0      "()()()", o=0, c=0
+                                    
+  NOTE: if number of c>o bracket we get the choice of c bracket
+  PROGRAM: The function generateParenthesis takes four parameters:
+
+open: the number of open parentheses so far
+close: the number of close parentheses so far
+str: the current parentheses string
+n: the number of pairs of parentheses to generate
+The function adds a ( to str and calls itself with open + 1 if open < n, and adds a ) to str and calls itself with close + 1 if open > close. When close == n, the parentheses string is complete and is printed to the console.
+
+  ***PRINT N DIGIT BINARY ***
+
+  While couting the prefix, the numbers of 1 should be equal to or greater than 0
+  EXAMPLE: for n=3
+                                    one=0, zero=0, N=3    OP=" "
+                                             |
+                                             |
+                                             |
+                                    one=1, zero= 0, N=2   OP="1"
+                                        /          \
+                                       /            \
+                                      /              \
+                                  OP="11"          op="10" 
+                        (one=2, zero=0, n=1 )    ( one=1, zero=1, n=1  )
+                          /       \                         |     
+                         /         \                        |      
+                        /           \                       |       
+                      op="111"    op="110"               op="101"    "100" will not be a choice as no. of 1 here is less than 0
+                    n=0            n=0                     n=0     
+  when no. of 1 > no. of 0 , than we can use 0
+  when no. of 1= no. of 0, we cannot use 0 
+
+  ***JOSEPHUS PROBLEM***
+
+  
+
+                        
+                                            
+
